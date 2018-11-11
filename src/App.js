@@ -1,25 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Table from './Table';
+import Form from './Form';
 
 class App extends Component {
+  state = {
+    tableDataValues: []
+  };
+  removeTableData = index => {
+    const { tableDataValues } = this.state;
+    this.setState({
+      tableDataValues: tableDataValues.filter((tableDataValues, i) => {
+        return i !== index;
+      })
+    });
+  }
+  handleSubmit = tableDataValues => {
+    this.setState({ tableDataValues: [...this.state.tableDataValues, tableDataValues] });
+  }
   render() {
+    // heading variables
+    const name = "Tanya";
+    const heading = <h1 className="site-heading">Hello, {name} variable!</h1>
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {heading}
+        <Table
+          tableData={this.state.tableDataValues}
+          removeTableData={this.removeTableData}
+        />
+        <Form handleSubmit={this.handleSubmit} />
       </div>
     );
   }
